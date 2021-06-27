@@ -1,3 +1,15 @@
+
+# Metas de este proyecto del curso
+
+* Uso del template administrativo 
+* Código fuente del template 
+* Uso de librerías externas 
+* Creación de los primeros componentes 
+* Separar el Login del template administrativo, ya que tienen estructuras iferentes 
+* Animaciones por CSS 
+* Respaldos en GitHub 
+* Preparar el proyecto que usaremos a lo largo del curso
+
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
