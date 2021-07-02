@@ -15,7 +15,15 @@
   * Crear un módulo personalizado
   * Crear rutas hijas
   * Crear módulos para agrupar tareas específicas
- 
+
+* Parte 3
+  * Se trabaja con Outputs, Inputs y ViewChild
+  * Utilizar atributos personalizados
+  * Crear un componente re utilizable con una funcionalidad en especifico
+  * Aprender a tener referencias a elementos HTML
+  * Tips de JavaScript puro: colocar el foco en elementos
+  * Uso de gráficas como componentes personalizados
+
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
