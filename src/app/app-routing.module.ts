@@ -13,6 +13,7 @@ const routes: Routes =  [
   // path: '/dashboard' PageRouting
   // path: '/auth' AuthRouting
 
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // Por defecto si está el path vacio, va al dashboard
   { path: '**', component: NotpagefoundComponent } // Redireccionar en cualquier otro caso que no coincida con los anteriores
 
 ];

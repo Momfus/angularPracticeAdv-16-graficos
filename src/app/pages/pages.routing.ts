@@ -12,14 +12,13 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 const routes: Routes = [
 
   {
-    path: '',
+    path: 'dashboard', // Se hace relativo a dashboard las siguientes rutas
     component: PagesComponent,
     children: [ // Se definen rutas hijas para separar las zonas de registro/login con el resto para un diseño
 
-      { path: 'dashboard', component: DashboardComponent },
+      { path: '', component: DashboardComponent },
       { path: 'progress', component: ProgressComponent },
       { path: 'grafica1', component: Grafica1Component },
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full'  } // Redirección a dashboard cuando no se ingresa a otro sitio
 
     ]
   },
@@ -27,7 +26,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], // forChild para rutas hijas (en este caso desde el directorio 'pages')
+  imports: [RouterModule.forChild(routes)], // forChild para rutas hijas (en este caso desde los elementos del directorio 'pages')
   exports: [RouterModule]
 })
 export class PagesRoutingModule {}
