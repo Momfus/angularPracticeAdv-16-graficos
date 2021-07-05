@@ -8,7 +8,8 @@
         <div class="progress m-t-20">
           <div
             class="progress-bar bg-primary progress-bar-striped active"
-            style="width: 50%; height: 10px"
+            style="height: 10px"
+            [style.width]="getPorcentaje"
             role="progressbar"
           >
             <span class="sr-only">85% Complete (success)</span>
@@ -28,16 +29,23 @@
 
           <!-- Restar -->
           <span class="input-group-btn">
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary"
+                    (click)="cambiarValor(-5)"
+                    type="button">
               <i class="fa fa-minus"></i>
             </button>
           </span>
 
-          <input type="text" class="form-control" placeholder="Product name" />
+          <input  type="number"
+                  class="form-control"
+                  placeholder="Progreso"
+                  [(ngModel)]="progreso"/>
 
           <!-- Sumar -->
           <span class="input-group-btn">
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary"
+                    (click)="cambiarValor(5)"
+                    type="button">
               <i class="fa fa-plus"></i>
             </button>
           </span>
