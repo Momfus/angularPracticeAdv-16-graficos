@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Solo necesitamos el router-oulet que proporciona este módulo (y no hace falta importar nuestro AppRoutingModule)
 import { FormsModule } from '@angular/forms';
 
+import { ChartsModule } from 'ng2-charts';
+
 // Módulos
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
@@ -31,7 +33,8 @@ import { PagesComponent } from './pages.component';
     FormsModule,
     SharedModule,
     RouterModule,
-    ComponentsModule
+    ComponentsModule,
+    ChartsModule
   ]
 })
 export class PagesModule { }
