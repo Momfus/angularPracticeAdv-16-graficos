@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Solo necesitamos el router-oulet que proporciona este módulo (y no hace falta importar nuestro AppRoutingModule)
 import { FormsModule } from '@angular/forms';
 
+// Módulos
+import { SharedModule } from '../shared/shared.module';
+import { ComponentsModule } from '../components/components.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { PagesComponent } from './pages.component';
-import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -26,9 +28,10 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    FormsModule, // Para manejo de module (en este caso solo se usa en pages.module sino habría que generalizarlo en app.module o donde también se use)
+    FormsModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    ComponentsModule
   ]
 })
 export class PagesModule { }

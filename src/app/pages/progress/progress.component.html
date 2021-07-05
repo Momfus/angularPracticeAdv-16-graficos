@@ -5,16 +5,28 @@
       <div class="card-body">
         <h4 class="card-title">Striped Progress bar</h4>
 
+        <!-- Barra 1 -->
         <div class="progress m-t-20">
           <div
             class="progress-bar bg-primary progress-bar-striped active"
             style="height: 10px"
-            [style.width]="getPorcentaje"
+            [style.width]="getProgreso1"
             role="progressbar"
           >
-            <span class="sr-only">85% Complete (success)</span>
           </div>
         </div>
+
+        <!-- Barra 2 -->
+        <div class="progress m-t-20">
+          <div
+            class="progress-bar bg-info progress-bar-striped active"
+            style="height: 10px"
+            [style.width]="getProgreso2"
+            role="progressbar"
+          >
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -22,41 +34,30 @@
 
 <!-- Botones para interactuar -->
 <div class="row">
+
+  <!-- Bara 1 -->
   <div class="col-6">
     <div class="card">
       <div class="card-body">
-        <div class="input-group">
 
-          <!-- Restar -->
-          <span class="input-group-btn">
-            <button class="btn btn-primary"
-                    (click)="cambiarValor(-5)"
-                    type="button">
-              <i class="fa fa-minus"></i>
-            </button>
-          </span>
+        <app-incrementador  (valor)="progreso1 = $event"
+                            [valor]="progreso1">
+        </app-incrementador>
 
-          <input  type="number"
-                  class="form-control"
-                  placeholder="Progreso"
-                  [(ngModel)]="progreso"/>
-
-          <!-- Sumar -->
-          <span class="input-group-btn">
-            <button class="btn btn-primary"
-                    (click)="cambiarValor(5)"
-                    type="button">
-              <i class="fa fa-plus"></i>
-            </button>
-          </span>
-        </div>
       </div>
     </div>
   </div>
 
+  <!-- Barra 2 -->
   <div class="col-6">
     <div class="card">
-      <div class="card-body">2</div>
+      <div class="card-body">
+
+        <app-incrementador  (valor)="progreso2 = $event"
+                            [valor]="progreso2">
+        </app-incrementador>
+
+      </div>
     </div>
   </div>
 </div>
