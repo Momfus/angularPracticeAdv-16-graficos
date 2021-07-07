@@ -24,6 +24,15 @@
   * Tips de JavaScript puro: colocar el foco en elementos
   * Uso de gráficas como componentes personalizados
 
+* Parte 4
+  * Crear un módulo para agrupar todos los servicios
+  * Ejecutar scripts en archivos de javascript puros, en TypeScript
+  * LocalStorage
+  * Cambiar CSS de forma dinámica
+  * Crear un componente para los ajustes del tema
+  * Tips aplicados de Javascript que se pueden usar en Typescript
+  * Preparar servicio del Sidebar, que se usará más adelante, para crear menues dinámicos en base a la respuesta del backend server.
+
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
