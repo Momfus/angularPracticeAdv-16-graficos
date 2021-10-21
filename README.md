@@ -33,6 +33,16 @@
   * Tips aplicados de Javascript que se pueden usar en Typescript
   * Preparar servicio del Sidebar, que se usará más adelante, para crear menues dinámicos en base a la respuesta del backend server.
 
+* Parte 5
+  * Observables y promesas
+  * Funciones que retornan promesas
+  * Crear un observable manualmente
+  * Retry, Map, Filter, Next
+  * Funciones que retornan observables.
+  * Leer parámetros de configuración de las rutas que son diferentes a los parámetros de las rutas por url.
+  * Cambiar metatags dependiendo de la página donde se encuentra.
+  * Cambiar el título de la página actual.
+
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
