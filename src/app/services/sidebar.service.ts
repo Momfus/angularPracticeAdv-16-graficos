@@ -14,6 +14,7 @@ export class SidebarService {
       submenu: [ // Sacadas del pages.routing.ts
         { titulo: 'Main', url: '/'},
         { titulo: 'ProgressBar', url: 'progress'},
+        { titulo: 'Promesas', url: 'promesas'},
         { titulo: 'Grafica', url: 'grafica1'},
       ]
     }
