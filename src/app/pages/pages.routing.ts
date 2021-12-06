@@ -19,12 +19,12 @@ const routes: Routes = [
     component: PagesComponent,
     children: [ // Se definen rutas hijas para separar las zonas de registro/login con el resto para un diseño
 
-      { path: '', component: DashboardComponent },
-      { path: 'progress', component: ProgressComponent },
-      { path: 'grafica1', component: Grafica1Component },
-      { path: 'account-settings', component: AccountSettingsComponent },
-      { path: 'promesas', component: PromesasComponent },
-      { path: 'rxjs', component: RxjsComponent },
+      { path: '', component: DashboardComponent, data: { title: 'Dashboard' } }, // Con 'data' se envian atributos
+      { path: 'progress', component: ProgressComponent, data: { title: 'ProgressBar' } },
+      { path: 'grafica1', component: Grafica1Component, data: { title: 'Gráfica #1' } },
+      { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Ajustes de Cuenta' } },
+      { path: 'promesas', component: PromesasComponent,data: { title: 'Promesas' } },
+      { path: 'rxjs', component: RxjsComponent, data: { title: 'Rxjs' } },
 
     ]
   },
