@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable, interval } from 'rxjs';
-import { retry, take, map } from 'rxjs/operators';
+import { retry, take, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs',
@@ -33,14 +33,13 @@ export class RxjsComponent {
 
   retornaIntervalo(): Observable<number> {
 
-    return interval( 1000 ) // Esto permite hacer lo que está comentado en el constructor de manera más sencilla.
-      .pipe(
-        take(4), // Dice cuantas emisiones del llamado subscripto se requieren y se detiene
+    return interval( 500 ) // Esto permite hacer lo que está comentado en el constructor de manera más sencilla.
+      .pipe( // Se coloca los operadores de abajo en el orden que se requiere
+        take(10), // Dice cuantas emisiones del llamado subscripto se requieren y se detiene
         map( valor => { // map sirve para transformar la información del obserrvable y mutarla en la que se necesita
-
           return valor + 1;
-
-        })
+        }),
+        filter( valor => ( valor % 2 === 0)? true: false ), // Detectar si es par o impar, de ser par mostrar el valor
       );
 
   }
