@@ -13,9 +13,10 @@ export class SidebarService {
       icono: 'mdi mdi-gauge',
       submenu: [ // Sacadas del pages.routing.ts
         { titulo: 'Main', url: '/'},
+        { titulo: 'Grafica', url: 'grafica1'},
+        { titulo: 'Rxjs', url: 'rxjs'},
         { titulo: 'ProgressBar', url: 'progress'},
         { titulo: 'Promesas', url: 'promesas'},
-        { titulo: 'Grafica', url: 'grafica1'},
       ]
     }
 
