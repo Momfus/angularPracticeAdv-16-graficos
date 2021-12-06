@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { retry } from 'rxjs/operators';
+import { Observable, interval } from 'rxjs';
+import { retry, take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs',
@@ -12,18 +12,36 @@ export class RxjsComponent {
 
   constructor() {
 
-    this.retornaObservable().pipe(
+    // this.retornaObservable().pipe(
 
-      retry(2) // Es para seguir intentando subscribirse hasta que lo logre (si se envía sin argumentos, sino se marca la cantidad)
+    //   retry(2) // Es para seguir intentando subscribirse hasta que lo logre (si se envía sin argumentos, sino se marca la cantidad)
 
-    ).subscribe(
+    // ).subscribe(
 
-      valor => console.log('Subs: ', valor),
-      error => console.warn('Error', error),
-      () => console.info('Obs terminado')
+    //   valor => console.log('Subs: ', valor),
+    //   error => console.warn('Error', error),
+    //   () => console.info('Obs terminado')
 
+    // );
 
-    );
+    this.retornaIntervalo()
+      .subscribe(
+        console.log // De esta manera manda todos los argumentos a la función definida sin mucha anotación
+      )
+
+  }
+
+  retornaIntervalo(): Observable<number> {
+
+    return interval( 1000 ) // Esto permite hacer lo que está comentado en el constructor de manera más sencilla.
+      .pipe(
+        take(4), // Dice cuantas emisiones del llamado subscripto se requieren y se detiene
+        map( valor => { // map sirve para transformar la información del obserrvable y mutarla en la que se necesita
+
+          return valor + 1;
+
+        })
+      );
 
   }
 
