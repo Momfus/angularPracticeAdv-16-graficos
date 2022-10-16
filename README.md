@@ -43,6 +43,15 @@
   * Cambiar metatags dependiendo de la página donde se encuentra.
   * Cambiar el título de la página actual.
 
+* Parte 6:
+  * Conección de Front-end con Backend (login)
+  * Usar Sweet Alert para msotrar mensajes
+  * Login normal de usuario
+  * Login de Google
+  * LocalStorage para almacenar tokens
+  * Protección básica de rutas
+  * Logout
+
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
