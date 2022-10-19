@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-register',
@@ -13,27 +14,34 @@ export class RegisterComponent {
   public registerForm = this.fb.group({
     nombre: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password1: ['123456', Validators.required],
-    password2: ['123456', Validators.required],
-    terminos: [ false, Validators.required]
+    password: ['', Validators.required],
+    password2: ['', Validators.required],
+    terminos: [ false, Validators.requiredTrue]
 
   },{
     // Mis validadores personalizados
-    validators: this.passwordsIguales('password1', 'password2')
+    validators: this.passwordsIguales('password', 'password2')
   });
 
-  constructor( private fb: FormBuilder) { }
+  constructor(  private fb: FormBuilder,
+                private usuarioService: UsuarioService
+              ) { }
 
   crearUsuario() {
 
     this.formSubmitted = true;
     console.log( this.registerForm ); // Para errores debo fijarme en controls -> el campo que quiero ver -> errors
 
-    if( this.registerForm.valid ) {
-      console.log('posteando formulario');
-    } else {
-      console.log('Formulario no es correcto...');
+    if( this.registerForm.invalid ) {
+      return;
     }
+
+    // Realizar el posteo del usuario al crearase
+    this.usuarioService.crearUsuario(this.registerForm.value)
+      .subscribe( res => {
+        console.log('usuario creado');
+        console.log(res);
+      }, (error) => console.warn(error));
 
   }
 
@@ -49,7 +57,7 @@ export class RegisterComponent {
 
   contraseniasNoValidas() {
 
-    const pass1 = this.registerForm.get('password1')?.value;
+    const pass1 = this.registerForm.get('password')?.value;
     const pass2 = this.registerForm.get('password2')?.value;
 
     if( (pass1 !== pass2) && this.formSubmitted){
