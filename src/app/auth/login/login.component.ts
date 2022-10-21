@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
@@ -14,9 +14,9 @@ export class LoginComponent {
   public formSubmitted = false;
 
   public loginForm = this.fb.group({
-    email: ['15@gmail.com', [Validators.required, Validators.email]],
-    password: ['123456', Validators.required],
-    remember: [false] // Saber si se quiere que el usuario se recuerde
+    email: [ localStorage.getItem('email') || '', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    remember: [ localStorage.getItem('remember') || false] // Saber si se quiere que el usuario se recuerde
   });
 
 
@@ -26,18 +26,43 @@ export class LoginComponent {
     private usuarioService: UsuarioService
   ) { }
 
-  ngOnInit(): void {
-  }
-
   login() {
 
     // console.log( this.loginForm.value );
 
     this.usuarioService.loginUsuario( this.loginForm.value )
       .subscribe( res => {
-        console.log(res);
-      }, (error => {
-        Swal.fire('Error', error.error.msg, 'error');
+
+        // console.log(res);
+
+        if( this.loginForm.get('remember')?.value ) {
+          localStorage.setItem('email', this.loginForm.get('email')?.value)
+          localStorage.setItem('remember', this.loginForm.get('remember')?.value)
+
+        } else {
+          localStorage.removeItem('email');
+        }
+
+      }, (err => {
+
+
+        // En caso de tener varios errores de validación, seleccionar el primero
+        let errorObject = err.error.errors;
+        if( errorObject != undefined && Object.keys(err.error.errors).length > 0) {
+
+          console.log(err);
+          let firtErrorElement: any = Object.values(err.error.errors)[0]
+          Swal.fire('Error',  firtErrorElement.msg, 'error');
+
+        } else {
+
+          // Error personalizado recibido
+          Swal.fire('Error', err.error.msg, 'error');
+
+        }
+
+
+
       }))
 
   }
