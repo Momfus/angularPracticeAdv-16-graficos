@@ -40,7 +40,6 @@ export class LoginComponent implements AfterViewInit {
       callback: this.handleCredentialResponse,
     });
     google.accounts.id.renderButton(
-      // document.getElementById("buttonDiv"),
       this.googleBtn.nativeElement,
       { theme: "outline", size: "large" } // customization attributes
     );
@@ -50,12 +49,16 @@ export class LoginComponent implements AfterViewInit {
 
     console.log("Encoded JWT ID token: " + response.credential);
 
-
   }
 
   login() {
 
+    this.formSubmitted = true;
+
     // console.log( this.loginForm.value );
+    if( this.loginForm.invalid ) {
+      return;
+    }
 
     this.usuarioService.loginUsuario( this.loginForm.value )
       .subscribe( res => {
@@ -72,25 +75,22 @@ export class LoginComponent implements AfterViewInit {
 
       }, (err => {
 
-
-        // En caso de tener varios errores de validación, seleccionar el primero
-        let errorObject = err.error.errors;
-        if( errorObject != undefined && Object.keys(err.error.errors).length > 0) {
-
-          // NOTA: No es buena constumbre señalar especificamente cuál es el error, es solo para practicar una posible solución
-          let firtErrorElement: any = Object.values(err.error.errors)[0]
-          Swal.fire('Error',  firtErrorElement.msg, 'error');
-
-        } else {
-
-          // Error personalizado recibido
-          Swal.fire('Error', err.error.msg, 'error');
-
-        }
-
-
+        // Error personalizado recibido
+        Swal.fire('Error', err.error.msg, 'error');
 
       }))
+
+  }
+
+
+
+  campoNoValido( campo: string): boolean {
+
+    if( this.loginForm.get(campo)?.invalid && this.formSubmitted ) {
+      return true;
+    } else {
+      return false;
+    }
 
   }
 
