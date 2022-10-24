@@ -42,4 +42,18 @@ export class UsuarioService {
                 );
   }
 
+
+  loginGoogle( token: string ) {
+
+    return this.http.post(`${ base_url}/login/google`, {token})
+            .pipe(
+              tap( (res: any) => {
+                console.log(res);
+                console.log(res.token);
+                localStorage.setItem('token', res.token)
+              })
+            );
+
+  }
+
 }

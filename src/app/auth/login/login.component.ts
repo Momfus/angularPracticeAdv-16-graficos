@@ -1,8 +1,8 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 
 declare const google: any;
 
@@ -33,24 +33,6 @@ export class LoginComponent implements AfterViewInit {
       this.googleInit();
   }
 
-  googleInit() {
-    google.accounts.id.initialize({
-      client_id:
-        "537976435600-j9077vafl2eugc7smnskkdtev3aujh9e.apps.googleusercontent.com", // No es ideal que el ID publico se coloque de esta manera (pero para fin del curso está bien)
-      callback: this.handleCredentialResponse,
-    });
-    google.accounts.id.renderButton(
-      this.googleBtn.nativeElement,
-      { theme: "outline", size: "large" } // customization attributes
-    );
-  }
-
-  handleCredentialResponse( response: any) {
-
-    console.log("Encoded JWT ID token: " + response.credential);
-
-  }
-
   login() {
 
     this.formSubmitted = true;
@@ -73,12 +55,38 @@ export class LoginComponent implements AfterViewInit {
           localStorage.removeItem('email');
         }
 
+        // Navegar el dashboard
+        this.router.navigateByUrl('/');
+
       }, (err => {
 
         // Error personalizado recibido
         Swal.fire('Error', err.error.msg, 'error');
 
       }))
+
+  }
+
+
+  googleInit() {
+    google.accounts.id.initialize({
+      client_id: "537976435600-j9077vafl2eugc7smnskkdtev3aujh9e.apps.googleusercontent.com", // No es ideal que el ID publico se coloque de esta manera (pero para fin del curso está bien)
+      callback: (response:any) => this.handleCredentialResponse(response), // Tomamos el primer valor y se lo enviamos como response (para evitar el cambio del "this")
+    });
+    google.accounts.id.renderButton(
+      this.googleBtn.nativeElement,
+      { theme: "outline", size: "large" } // customization attributes
+    );
+  }
+
+  handleCredentialResponse( response: any) {
+
+    // console.log("Encoded JWT ID token: " + response.credential);
+    this.usuarioService.loginGoogle( response.credential )
+        .subscribe( res => {
+          // Navegar el dashboard
+          this.router.navigateByUrl('/');
+        })
 
   }
 
