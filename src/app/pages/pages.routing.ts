@@ -3,6 +3,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
+import { AuthGuard } from '../guards/auth.guard';
+
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -17,6 +19,7 @@ const routes: Routes = [
   {
     path: 'dashboard', // Se hace relativo a dashboard las siguientes rutas
     component: PagesComponent,
+    canActivate: [AuthGuard], // Manejar quien puede entrar a estas páginas
     children: [ // Se definen rutas hijas para separar las zonas de registro/login con el resto para un diseño
 
       { path: '', component: DashboardComponent, data: { title: 'Dashboard' } }, // Con 'data' se envian atributos

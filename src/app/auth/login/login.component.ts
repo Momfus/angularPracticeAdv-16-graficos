@@ -1,10 +1,11 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
 
 declare const google: any;
+
 
 @Component({
   selector: 'app-login',
@@ -26,11 +27,12 @@ export class LoginComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private ngZone: NgZone // Esto es usado para que angular espere que haya cambios (llamadas asíncronas). Tambien salva errores por llamadas externas de angular (con otroas librerias, como sucede con route al redirigir)
   ) { }
 
   ngAfterViewInit(): void {
-      this.googleInit();
+      this.startApp();
   }
 
   login() {
@@ -68,28 +70,14 @@ export class LoginComponent implements AfterViewInit {
   }
 
 
-  googleInit() {
-    google.accounts.id.initialize({
-      client_id: "537976435600-j9077vafl2eugc7smnskkdtev3aujh9e.apps.googleusercontent.com", // No es ideal que el ID publico se coloque de esta manera (pero para fin del curso está bien)
-      callback: (response:any) => this.handleCredentialResponse(response), // Tomamos el primer valor y se lo enviamos como response (para evitar el cambio del "this")
-    });
+  startApp() {
+
+    // En el usuario.service se inicializa lo de google account, cada sitio que utilice este login se debe renderizar el botón
     google.accounts.id.renderButton(
       this.googleBtn.nativeElement,
       { theme: "outline", size: "large" } // customization attributes
     );
   }
-
-  handleCredentialResponse( response: any) {
-
-    // console.log("Encoded JWT ID token: " + response.credential);
-    this.usuarioService.loginGoogle( response.credential )
-        .subscribe( res => {
-          // Navegar el dashboard
-          this.router.navigateByUrl('/');
-        })
-
-  }
-
 
 
   campoNoValido( campo: string): boolean {
@@ -103,3 +91,15 @@ export class LoginComponent implements AfterViewInit {
   }
 
 }
+
+
+/*
+Notas:
+    change detection: es el mecanismo (o estrategia) de detección de cambios que utiliza Angular para saber
+  cuando debe actualizar un componente o toda la vista en caso de la data haya cambiado.
+
+      --> Estrategias:
+            > OnPush: establece la estrategia CheckOne(bajo demanda)
+            > Default establece la estrategia en CheckAlways.
+
+*/
