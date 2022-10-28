@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { Usuario } from 'src/models/usuario.model';
 
 declare const google: any; // Utilizar globalmente  para usar el objeto global que me da google
 
@@ -18,12 +19,14 @@ const base_url = environment.base_url
 })
 export class UsuarioService {
 
+  public usuario!: Usuario;
+
   constructor(  private http: HttpClient,
                 private router: Router,
                 private ngZone: NgZone) {
 
-this.googleInit();
-                }
+        this.googleInit();
+  }
 
 
   googleInit() {
@@ -59,11 +62,21 @@ this.googleInit();
       }
     }).pipe(
       tap( (res: any) => {
+        // console.log(res);
+
+        // Descontruyo los atributos necesarios de la respuesta para crear un nuevo objeto de tipo usuario con los elementos requeridos para trabajar con el mismo
+        const { email, google, nombre, role, img, uid } = res.usuario;
+
+        this.usuario = new Usuario(nombre,email, '', img, google, role, uid); // Password no se debe traer
         localStorage.setItem('token', res.token); // Graba el nuevo token renovado
+
       }),
       map( res => true), // De pasar la respuesta, directamente devolverá "true" porque pudo renovar el token
       catchError( // Manejador de RXJS para los errores que puedan ocurrir
-        error => of(false) // of transforma en observable el elemento enviado y no romper el ciclo armado de devolver un observable<boolean>
+        error => {
+          console.log(error);
+          return of(false); // of transforma en observable el elemento enviado y no romper el ciclo armado de devolver un observable<boolean>
+        }
       )
     );
   }

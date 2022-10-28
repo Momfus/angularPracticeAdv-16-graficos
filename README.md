@@ -52,6 +52,15 @@
   * Protección básica de rutas
   * Logout
 
+* Parte 7:
+  * Módulo de pipes
+  * Pipe para controlar la imagen a desplegar
+  * Subida de imagen desde el Front-end hasta el Back-end
+  * Crear el componente del perfil del usuario.
+  * Notificar actualización de imagen
+  * Vista previa de la imagen seleccionada en tiempo real (sin subirla al backend)
+
+  
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
