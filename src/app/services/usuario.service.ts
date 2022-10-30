@@ -61,17 +61,18 @@ export class UsuarioService {
         'x-token': token
       }
     }).pipe(
-      tap( (res: any) => {
+      map( (res: any) => {
         // console.log(res);
 
         // Descontruyo los atributos necesarios de la respuesta para crear un nuevo objeto de tipo usuario con los elementos requeridos para trabajar con el mismo
-        const { email, google, nombre, role, img, uid } = res.usuario;
+        const { email, google, nombre, role, img = '', uid } = res.usuario;
 
         this.usuario = new Usuario(nombre,email, '', img, google, role, uid); // Password no se debe traer
         localStorage.setItem('token', res.token); // Graba el nuevo token renovado
 
+
+        return true;  // De pasar la respuesta, directamente devolverá "true" porque pudo renovar el token
       }),
-      map( res => true), // De pasar la respuesta, directamente devolverá "true" porque pudo renovar el token
       catchError( // Manejador de RXJS para los errores que puedan ocurrir
         error => {
           console.log(error);

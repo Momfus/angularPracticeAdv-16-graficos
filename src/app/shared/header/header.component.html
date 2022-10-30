@@ -164,13 +164,17 @@
                                   <div class="u-img"><img [src]="usuario.imagenUrl" alt="user"></div>
                                   <div class="u-text">
                                       <h4>{{usuario.nombre}}</h4>
-                                      <p class="text-muted">{{usuario.email}}</p>
+                                      <p class="text-muted">
+                                        <!-- Recorta el email si es largo y si supera los 20 caracteres, le agrega tres puntos -->
+                                        {{usuario.email | slice:0:20}}
+                                        {{(usuario.email.length > 20)? '...':''}} <!-- Podría hacerse con ng-if pero es práctico así también. -->
+                                      </p>
                                       <a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                     </div>
                               </div>
                           </li>
                           <li role="separator" class="divider"></li>
-                          <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                          <li><a routerLinkActive="./perfil" class="cursor"><i class="ti-user"></i> My Profile</a></li>
                           <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                           <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                           <li role="separator" class="divider"></li>
