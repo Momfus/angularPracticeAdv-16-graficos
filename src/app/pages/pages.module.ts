@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Solo necesitamos el router-oulet que proporciona este módulo (y no hace falta importar nuestro AppRoutingModule)
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Módulos
 import { SharedModule } from '../shared/shared.module';
@@ -40,7 +40,8 @@ import { PerfilComponent } from './perfil/perfil.component';
     FormsModule,
     SharedModule,
     RouterModule,
-    ComponentsModule
+    ComponentsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

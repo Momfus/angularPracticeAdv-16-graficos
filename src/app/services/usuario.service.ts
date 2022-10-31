@@ -28,6 +28,13 @@ export class UsuarioService {
         this.googleInit();
   }
 
+  get token(): string {
+    return localStorage.getItem('token') || ''; // De no existir el token, retornar string vacio
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
 
   googleInit() {
 
@@ -54,11 +61,10 @@ export class UsuarioService {
 
 
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || ''; // De no existir el token, retornar string vacio
 
     return this.http.get(`${base_url}/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token // Utiliza el getter
       }
     }).pipe(
       map( (res: any) => {
@@ -93,6 +99,20 @@ export class UsuarioService {
 
                   })
                 );
+  }
+
+  actualizarPerfil( data: {email: string, nombre: string, role: string}) { // También se puede hacer una interfaz o así de forma explicita
+
+    data = {
+      ...data,
+      role: this.usuario.role || 'USER_ROLE' // Le asigna el mismo role del usuario o sino da el por defecto (que estableci en el backend)
+    }
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
+      headers: {
+      'x-token': this.token
+      }
+    })
+
   }
 
   loginUsuario( formData: LoginForm) {
