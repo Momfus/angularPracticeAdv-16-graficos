@@ -60,13 +60,18 @@
 
         <img src="">
 
-        <input type="file">
+
+        <input  type="file"
+                (change)="cambiarImagen($any($event.target).files[0])"><!-- Dentro de justo este evento hay un arreglo de files y para que lo tome como válido, se especifica que es evento de cualquier tipo (any) -->
 
         <br>
         <br>
 
         <!--  Aciones -->
-        <button type="button" class="btn btn-success btn-block waves-effect waves-light m-r-10">
+        <button type="button"
+                class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                (click)="subirImagen()"
+                [disabled]="!imagenSubir"> <!--Deshabilitar si no hay imagen a subir -->
           <i class="fa fa-save"></i>
           Cambiar imagen
         </button>
