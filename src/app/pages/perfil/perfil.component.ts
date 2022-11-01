@@ -15,6 +15,7 @@ export class PerfilComponent implements OnInit {
   public usuario!: Usuario;
   public perfilForm!: FormGroup;
   public imagenSubir!: File;
+  public imgTemp!: string | ArrayBuffer | null;
 
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
@@ -48,6 +49,21 @@ export class PerfilComponent implements OnInit {
 
     this.imagenSubir = file;
 
+    // Si no hay archivo, no continuar (y que la imagen temporal sea null)
+    if( !file ) {
+      this.imgTemp = null
+      return;
+    }
+
+    const reader = new FileReader(); // Propio de javascript (no se importa)
+    reader.readAsDataURL( file); // Transforma el archivo en un formato visible como imagen
+
+    reader.onload = () => { // Procedimiento cuando se carga
+
+      this.imgTemp = reader.result;
+      // console.log(reader.result); // Nunca grabar esto en una base de datos porque es enorme en el formato string
+    }
+
   }
 
   subirImagen() {
@@ -56,7 +72,7 @@ export class PerfilComponent implements OnInit {
       this.imagenSubir,
       'usuarios',
       this.usuario.uid || '' // El vacio dará error en caso que no tenga, que no debería.
-    ).then( img  => console.log(img) );
+    ).then( img  => this.usuario.img = img ); // El objeto es por referencia, asi que en todo lugar que se use del usuarioService se cambia.
 
   }
 
