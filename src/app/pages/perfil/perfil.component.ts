@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../../models/usuario.model';
 import { FileUploadService } from '../../services/file-upload.service';
@@ -42,6 +44,12 @@ export class PerfilComponent implements OnInit {
           const {nombre, email } = this.perfilForm.value;
           this.usuario.nombre = nombre;
           this.usuario.email = email;
+
+          Swal.fire('Guardado', 'Los cambios fueron guardados', 'success');
+        }, (err) => {
+
+          Swal.fire('Error', err.error.msg, 'error');
+
         });
   }
 
@@ -72,7 +80,14 @@ export class PerfilComponent implements OnInit {
       this.imagenSubir,
       'usuarios',
       this.usuario.uid || '' // El vacio dará error en caso que no tenga, que no debería.
-    ).then( img  => this.usuario.img = img ); // El objeto es por referencia, asi que en todo lugar que se use del usuarioService se cambia.
+    ).then(
+      img  => {
+        Swal.fire('Guardado', 'Imagen de usuario actualizado', 'success');
+        this.usuario.img = img // El objeto es por referencia, asi que en todo lugar que se use del usuarioService se cambia.
+      }
+    ).catch( err => {
+      Swal.fire('Error', err.error.msg, 'error');
+    });
 
   }
 
