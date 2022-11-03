@@ -60,6 +60,13 @@
   * Notificar actualización de imagen
   * Vista previa de la imagen seleccionada en tiempo real (sin subirla al backend)
 
+* Parte 8:
+  * Crear componente de usuarios
+  * Búsqueda de usuarios
+  * Borrar usuario
+  * Actualizar Rol del usuario
+  * Crear un modal para la subida de la imagen
+  * Emitir notificaciones de cambio en imagenes
   
 # Adminpro
 

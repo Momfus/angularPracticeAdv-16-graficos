@@ -18,6 +18,16 @@ export class SidebarService {
         { titulo: 'ProgressBar', url: 'progress'},
         { titulo: 'Promesas', url: 'promesas'},
       ]
+    },
+
+    {
+      titulo: 'Mantenimiento',
+      icono: 'mdi mdi-folder-lock-open',
+      submenu: [ // Sacadas del pages.routing.ts
+        { titulo: 'Usuarios', url: 'usuarios'},
+        { titulo: 'Hospitales', url: 'hospitales'},
+        { titulo: 'Médicos', url: 'medicos'},
+      ]
     }
 
   ];
