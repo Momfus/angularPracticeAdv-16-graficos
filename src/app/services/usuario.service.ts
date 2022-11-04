@@ -8,6 +8,8 @@ import { Observable, of } from 'rxjs';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
+
 import { Usuario } from 'src/models/usuario.model';
 
 declare const google: any; // Utilizar globalmente  para usar el objeto global que me da google
@@ -36,6 +38,12 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
+  get headers() {
+    return {
+      headers: {
+      'x-token': this.token // Utiliza el getter
+    }}
+  }
   googleInit() {
 
       google.accounts.id.initialize({
@@ -62,11 +70,8 @@ export class UsuarioService {
 
   validarToken(): Observable<boolean> {
 
-    return this.http.get(`${base_url}/login/renew`, {
-      headers: {
-        'x-token': this.token // Utiliza el getter
-      }
-    }).pipe(
+    return this.http.get(`${base_url}/login/renew`, this.headers
+      ).pipe(
       map( (res: any) => {
         // console.log(res);
 
@@ -107,11 +112,7 @@ export class UsuarioService {
       ...data,
       role: this.usuario.role || 'USER_ROLE' // Le asigna el mismo role del usuario o sino da el por defecto (que estableci en el backend)
     }
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
-      headers: {
-      'x-token': this.token
-      }
-    })
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers)
 
   }
 
@@ -150,6 +151,14 @@ export class UsuarioService {
     google.accounts.id.revoke( 'momfusutn@gmail.com', () => {
       this.router.navigateByUrl('/login');
     })
+
+  }
+
+  cargarUsuarios( desde: number = 0) {
+
+    // localost:3000/api/usuarios?desde=0
+    const url = `${base_url}/usuarios?desde=${ desde }`;
+    return this.http.get<CargarUsuario>(url, this.headers); // Lo que esta entre "<..>" me permite definir el tipo que devuelve para destructurarlo mejor al usarse
 
   }
 
