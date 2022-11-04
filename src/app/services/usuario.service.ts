@@ -1,10 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Para manejos de pedidos http
-import { environment } from '../../environments/environment';
-import { tap, map, catchError } from 'rxjs/operators'; // tap es un operador de pipe para disparar un efecto secundario
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
 
+import { Observable, of } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators'; // tap es un operador de pipe para disparar un efecto secundario
+
+import { environment } from '../../environments/environment';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
@@ -158,8 +159,21 @@ export class UsuarioService {
 
     // localost:3000/api/usuarios?desde=0
     const url = `${base_url}/usuarios?desde=${ desde }`;
-    return this.http.get<CargarUsuario>(url, this.headers); // Lo que esta entre "<..>" me permite definir el tipo que devuelve para destructurarlo mejor al usarse
+    return this.http.get<CargarUsuario>(url, this.headers) // Lo que esta entre "<..>" me permite definir el tipo que devuelve para destructurarlo mejor al usarse
+                .pipe(
+                  map( res => {
+                    // console.log(res);
 
+                    const usuarios = res.usuarios.map( // Se inicializa instancias de usuario por cada uno recibido para manejarlo individualmente
+                      user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+                    )
+
+                    return {
+                      total: res.total,
+                      usuarios,
+                    };
+                  })
+                );
   }
 
 }

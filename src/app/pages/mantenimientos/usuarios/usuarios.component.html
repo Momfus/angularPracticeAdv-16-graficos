@@ -31,24 +31,29 @@
   <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Total de usuarios ({{ totalUsuarios }} )</h4>
+            <h4 class="card-title">Total de usuarios ({{ totalUsuarios }})</h4>
             <h6 class="card-subtitle">Usuarios registrados en mi aplicación.</h6>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Avatar</th>
+                            <th class="w100">Avatar</th>
                             <th>Correo</th>
                             <th>Nombre</th>
-                            <th>Role</th>
-                            <th>Auth</th>
-                            <th class="text-nowrap">Acciones</th>
+                            <th class="w100">Role</th>
+                            <th class="w100">Auth</th>
+                            <th class="text-nowrap w100">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let usuario of usuarios" >
 
-                            <td>xxxxx</td>
+                            <!-- <td>{{usuario.imagenUrl }}</td> <!-- Podría hacerse con un pipe y hacer algo parecido al get de usuario.model.ts con imagenUrl; pero se opta por la opción de crear la instancia para ver otro método. -->
+                            <td class="text-center">
+                              <img  [src]="usuario.imagenUrl"
+                                    alt="Avatar de usuario"
+                                    class="avatar">
+                            </td>
                             <td>{{usuario.email}}</td>
                             <td>{{usuario.nombre}}</td>
                             <td>{{usuario.role}}</td>

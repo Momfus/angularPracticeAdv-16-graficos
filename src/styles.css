@@ -23,3 +23,12 @@
   height: 200px;
   padding: 0.5em;
 }
+
+.w100 {
+  width: 100px;
+}
+
+.avatar {
+  border-radius: 100%;
+  width: 30px;
+}

@@ -19,16 +19,22 @@ export class Usuario {
 
   get imagenUrl() {
 
-    // Para imagen de login de google
-    if( this.img?.includes('https') ) {
-      return this.img;
-    }
+    if( !this.img){ // en caso que no exista el campo por alguna razón
 
-    // Resto de los casos
-    if( this.img ) {
-      return `${base_url}/upload/usuarios/${this.img}`
+      return `${base_url}/upload/usuarios/no-image`;
+
+    } else if( this.img.includes('https') ) { // Para imagen de login de google
+
+      return this.img;
+
+    } else if( this.img ) { // Resto de los casos
+
+      return `${base_url}/upload/usuarios/${this.img}`;
+
     } else {
-      return `${base_url}/upload/usuarios/no-image`
+
+      return `${base_url}/upload/usuarios/no-image`;
+
     }
 
   }
