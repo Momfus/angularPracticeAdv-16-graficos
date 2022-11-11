@@ -161,6 +161,7 @@ export class UsuarioService {
     const url = `${base_url}/usuarios?desde=${ desde }`;
     return this.http.get<CargarUsuario>(url, this.headers) // Lo que esta entre "<..>" me permite definir el tipo que devuelve para destructurarlo mejor al usarse
                 .pipe(
+                  // delay(5000), // De la libreria rxjs para provocar una demora (sirve para testing)
                   map( res => {
                     // console.log(res);
 

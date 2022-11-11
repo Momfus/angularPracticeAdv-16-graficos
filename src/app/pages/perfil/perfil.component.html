@@ -61,7 +61,7 @@
 
         <div class="text-center">
           <!-- Si no hay imagen temporal, usar la de usuario-->
-          <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar">
+          <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" referrerpolicy="no-referrer" class="img-avatar">
 
           <!-- Sino, mostrar la temporal-->
           <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar">
