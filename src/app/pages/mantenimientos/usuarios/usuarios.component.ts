@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Usuario } from '../../../../models/usuario.model';
+import { BusquedasService } from '../../../services/busquedas.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -12,10 +13,15 @@ export class UsuariosComponent implements OnInit {
 
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
+  public usuariosTemp: Usuario[] = [];
   public desde: number = 0;
   public cargando: boolean = true;
+  public sinUsuario: boolean = false;
 
-  constructor( private usuariosService: UsuarioService ) { }
+  constructor(
+      private usuariosService: UsuarioService,
+      private busquedaService: BusquedasService
+      ) { }
 
   ngOnInit(): void {
 
@@ -32,6 +38,7 @@ export class UsuariosComponent implements OnInit {
 
       this.totalUsuarios = total;
       this.usuarios = usuarios;
+      this.usuariosTemp = usuarios; // no debe apuntar a "this.usuarios" sino al cambiar uno afectaria al otro
       this.cargando = false;
 
     });
@@ -49,6 +56,24 @@ export class UsuariosComponent implements OnInit {
     }
 
     this.cargarUsuarios();
+
+  }
+
+  buscar(termino: string) {
+
+    if( termino.length === 0 ) {
+      this.usuarios = this.usuariosTemp; // De esta manera se queda con el total de usuarios (sin búsqueda)
+      return;
+    }
+
+    this.busquedaService.buscar('usuarios', termino)
+      .subscribe( res => {
+        this.usuarios = res;
+
+        this.sinUsuario = res.length === 0 ? true : false;
+
+      });
+
 
   }
 

@@ -7,7 +7,9 @@
 
             <input  type="text"
                     class="form-control"
-                    placeholder="Buscar usuario...">
+                    placeholder="Buscar usuario..."
+                    (keyup)="buscar( txtTermino.value )"
+                    #txtTermino> <!--  Referencia local a este input-->
 
           </div>
       </div>
@@ -73,9 +75,16 @@
                 </table>
             </div>
 
-            <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
-            &nbsp; <!-- Comando para pequeña separación -->
-            <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+            <!-- Sin usuarios encontrados -->
+            <div *ngIf="sinUsuario" class="text-center">
+              <h2>No se encontraron usuarios.</h2>
+            </div>
+
+            <div *ngIf="txtTermino.value.length === 0">
+              <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+              &nbsp; <!-- Comando para pequeña separación -->
+              <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+            </div>
 
         </div>
     </div>
