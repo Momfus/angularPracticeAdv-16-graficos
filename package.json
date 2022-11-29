@@ -22,12 +22,12 @@
     "jshint": "^2.13.1",
     "ng2-charts": "^2.3.0",
     "rxjs": "~6.6.0",
-    "sweetalert2": "^11.5.2",
+    "sweetalert2": "^11.4.8",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~12.0.5",
+    "@angular-devkit/build-angular": "^15.0.1",
     "@angular/cli": "~12.0.5",
     "@angular/compiler-cli": "~12.0.5",
     "@types/jasmine": "~3.6.0",
