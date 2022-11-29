@@ -19,6 +19,7 @@ export class UsuariosComponent implements OnInit {
   public desde: number = 0;
   public cargando: boolean = true;
   public sinUsuario: boolean = false;
+  public uidActual: string = this.usuariosService.uid; // Para usar del lado html
 
   constructor(
       private usuariosService: UsuarioService,
@@ -81,6 +82,14 @@ export class UsuariosComponent implements OnInit {
 
   eliminarUsuario( usuario: Usuario ){
 
+    // No dejar editar si el usuario a borrar es igual al usuario logueado (se puede también hacer por html)
+    if( usuario.uid === this.uidActual ) {
+
+      Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
+      return;
+
+    }
+
     Swal.fire({
       title: '¿Borrar usuario?',
       text: `Esta a punto de borrar a ${usuario.nombre}`,
@@ -92,7 +101,6 @@ export class UsuariosComponent implements OnInit {
 
         this.usuariosService.eliminarUsuario( usuario )
             .subscribe( res => {
-
 
                 // Para volver a la página anterior si el total de usuarios en la actual ya no existe y no es la primera página
                 if( this.desde === (this.totalUsuarios - 1 ) && this.desde != 0 ){
@@ -114,6 +122,15 @@ export class UsuariosComponent implements OnInit {
 
       }
     })
+
+  }
+
+  cambiarRole( usuario: Usuario ) {
+
+    this.usuariosService.guardarUsuario( usuario )
+      .subscribe( res => {
+        console.log(res);
+      });
 
   }
 

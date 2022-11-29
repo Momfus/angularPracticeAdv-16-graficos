@@ -113,6 +113,7 @@ export class UsuarioService {
       ...data,
       role: this.usuario.role || 'USER_ROLE' // Le asigna el mismo role del usuario o sino da el por defecto (que estableci en el backend)
     }
+
     return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers)
 
   }
@@ -180,9 +181,15 @@ export class UsuarioService {
   eliminarUsuario( usuario: Usuario ) {
 
     const url = `${base_url}/usuarios/${ usuario.uid }`;
-    console.log(url);
 
     return this.http.delete(url, this.headers);
+  }
+
+
+  guardarUsuario( usuario: Usuario) {
+
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers)
+
   }
 
 }
