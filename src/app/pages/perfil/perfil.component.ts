@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { UsuarioService } from '../../services/usuario.service';
@@ -15,11 +15,11 @@ import { FileUploadService } from '../../services/file-upload.service';
 export class PerfilComponent implements OnInit {
 
   public usuario!: Usuario;
-  public perfilForm!: FormGroup;
+  public perfilForm!: UntypedFormGroup;
   public imagenSubir!: File;
   public imgTemp!: string | ArrayBuffer | null;
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
               private usuarioService: UsuarioService,
               private fileUploadService: FileUploadService
   ) {

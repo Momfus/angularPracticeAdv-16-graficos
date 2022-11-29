@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class LoginComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private usuarioService: UsuarioService,
     private ngZone: NgZone // Esto es usado para que angular espere que haya cambios (llamadas asíncronas). Tambien salva errores por llamadas externas de angular (con otroas librerias, como sucede con route al redirigir)
   ) { }
