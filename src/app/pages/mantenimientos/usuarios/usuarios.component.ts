@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
+
 import { UsuarioService } from '../../../services/usuario.service';
 import { Usuario } from '../../../../models/usuario.model';
 import { BusquedasService } from '../../../services/busquedas.service';
@@ -74,6 +76,44 @@ export class UsuariosComponent implements OnInit {
 
       });
 
+
+  }
+
+  eliminarUsuario( usuario: Usuario ){
+
+    Swal.fire({
+      title: '¿Borrar usuario?',
+      text: `Esta a punto de borrar a ${usuario.nombre}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrarlo'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.usuariosService.eliminarUsuario( usuario )
+            .subscribe( res => {
+
+
+                // Para volver a la página anterior si el total de usuarios en la actual ya no existe y no es la primera página
+                if( this.desde === (this.totalUsuarios - 1 ) && this.desde != 0 ){
+                  this.desde -= 5;
+                }
+
+                this.cargarUsuarios(); // Recargar lista y paginación
+
+                Swal.fire(
+
+                  'Usuario borrado',
+                  `${usuario.nombre} fue eliminado correctamente`,
+                  'success'
+
+                )
+
+            });
+
+
+      }
+    })
 
   }
 
