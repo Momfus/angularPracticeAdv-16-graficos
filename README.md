@@ -67,6 +67,15 @@
   * Actualizar Rol del usuario
   * Crear un modal para la subida de la imagen
   * Emitir notificaciones de cambio en imagenes
+
+* Parte 9:
+  * Detalles sobr el pipe de las imagenes
+  * Componentes Médico y médicos
+  * Borrar médicos
+  * Crear nuevo médico
+  * Mostrar información en base a una selección de un hospital
+  * Cargar médico
+  * Actualizar registro de un médico
   
 # Adminpro
 
