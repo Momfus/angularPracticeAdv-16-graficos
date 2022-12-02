@@ -86,6 +86,7 @@ export class PerfilComponent implements OnInit {
         this.usuario.img = img // El objeto es por referencia, asi que en todo lugar que se use del usuarioService se cambia.
       }
     ).catch( err => {
+      console.log(err);
       Swal.fire('Error', err.error.msg, 'error');
     });
 
