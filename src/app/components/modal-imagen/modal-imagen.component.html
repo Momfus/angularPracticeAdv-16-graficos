@@ -27,6 +27,22 @@
 
           <h3>Seleccione una imagen</h3>
 
+          <div class="text-center">
+            <!-- Si no hay imagen temporal, usar la de usuario-->
+            <img *ngIf="!imgTemp" [src]="modalImagenService.img" referrerpolicy="no-referrer" class="img-avatar">
+
+            <!-- Sino, mostrar la temporal-->
+            <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar">
+
+          </div>
+
+
+          <input  type="file"
+                  #inputFile
+                  (change)="cambiarImagen($any($event.target).files[0])"
+                  ><!-- Dentro de justo este evento hay un arreglo de files y para que lo tome como válido, se especifica que es evento de cualquier tipo (any) -->
+
+
         </div>
         <div class="modal-footer">
           <button type="button"
