@@ -56,7 +56,8 @@
                             <td class="text-center">
                               <img  [src]="usuario.imagenUrl"
                                     alt="Avatar de usuario"
-                                    class="avatar"
+                                    class="avatar cursor"
+                                    (click)="abrirModal(usuario)"
                                     referrerpolicy="no-referrer">
                             </td>
                             <td>{{usuario.email}}</td>
