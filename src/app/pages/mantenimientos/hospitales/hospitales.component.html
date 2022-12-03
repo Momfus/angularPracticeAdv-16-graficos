@@ -8,7 +8,8 @@
 
             <input  type="text"
                     class="form-control"
-                    placeholder="Buscar usuario...">
+                    placeholder="Buscar usuario..."
+                    #txtTermino> <!-- Referencia local a este input -->
 
           </div>
       </div>
@@ -16,7 +17,8 @@
 </div>
 
 <!-- Loading -->
-<div class="row animated fadeIn fast">
+<div  *ngIf="cargando"
+      class="row animated fadeIn fast">
   <div class="col-12">
       <div class="alert alert-info text-center">
         <h4 class="alert-heading">Cargando</h4>
@@ -26,13 +28,14 @@
   </div>
 </div>
 
-<!-- Tabla de usuarios-->
-<div class="row">
+<!-- Tabla de Hospitales-->
+<div  *ngIf="!cargando"
+      class="row">
 
   <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Hospitales</h4>
+            <h4 class="card-title">Hospitales ({{ totalHospitales }})</h4>
             <h6 class="card-subtitle">Hospitales registrados en mi aplicación.</h6>
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -44,17 +47,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngFor="let hospital of hospitales">
 
-                            <td>Img</td>
+                            <td>{{hospital.img}}</td>
                             <td>
                               <input  type="text"
                                       class="form-control"
-                                      placeholder="Nombre del hospital">
+                                      placeholder="Nombre del hospital"
+                                      [(ngModel)]="hospital.nombre">
                             </td>
 
                             <td class="text-nowrap text-center">
-                                <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Guardar cambios"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
                             </td>
                         </tr>
@@ -62,9 +66,15 @@
                 </table>
             </div>
 
-            <button class="btn btn-secondary">Anteriores</button>
-            &nbsp; <!-- Comando para pequeña separación -->
-            <button class="btn btn-secondary">Siguientes</button>
+            <div *ngIf="txtTermino.value.length === 0">
+              <button (click)="cambiarPagina(-pageOffset)"
+                      *ngIf="desde >= pageOffset"
+                      class="btn btn-secondary">Anteriores</button>
+              &nbsp; <!-- Comando para pequeña separación -->
+              <button (click)="cambiarPagina(pageOffset)"
+                      *ngIf="(desde + pageOffset) < totalHospitales"
+                      class="btn btn-secondary">Siguientes</button>
+            </div>
 
         </div>
     </div>

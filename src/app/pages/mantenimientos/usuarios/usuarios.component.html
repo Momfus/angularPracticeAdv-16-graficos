@@ -103,9 +103,13 @@
             </div>
 
             <div *ngIf="txtTermino.value.length === 0">
-              <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+              <button (click)="cambiarPagina(-pageOffset)"
+                      *ngIf="desde >= pageOffset"
+                      class="btn btn-secondary">Anteriores</button>
               &nbsp; <!-- Comando para pequeña separación -->
-              <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+              <button (click)="cambiarPagina(pageOffset)"
+                      *ngIf="(desde + pageOffset) < totalUsuarios"
+                      class="btn btn-secondary">Siguientes</button>
             </div>
 
         </div>

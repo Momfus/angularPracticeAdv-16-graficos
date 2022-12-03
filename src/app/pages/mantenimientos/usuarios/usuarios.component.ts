@@ -28,6 +28,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   public desde: number = 0;
   public cargando: boolean = true;
 
+  public pageOffset: number = 5;
 
   constructor(
       private usuariosService: UsuarioService,
@@ -127,7 +128,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
                 // Para volver a la página anterior si el total de usuarios en la actual ya no existe y no es la primera página
                 if( this.desde === (this.totalUsuarios - 1 ) && this.desde != 0 ){
-                  this.desde -= 5;
+                  this.desde -= this.pageOffset;
                 }
 
                 this.cargarUsuarios(); // Recargar lista y paginación
