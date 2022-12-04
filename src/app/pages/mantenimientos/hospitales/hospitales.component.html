@@ -34,9 +34,31 @@
 
   <div class="col-12">
     <div class="card">
+
         <div class="card-body">
-            <h4 class="card-title">Hospitales ({{ totalHospitales }})</h4>
-            <h6 class="card-subtitle">Hospitales registrados en mi aplicación.</h6>
+
+            <div class="row">
+
+              <!-- Títulos -->
+              <div class="col-8">
+                <h4 class="card-title">Hospitales ({{ totalHospitales }})</h4>
+                <h6 class="card-subtitle">
+                  Hospitales registrados en mi aplicación.
+                </h6>
+              </div>
+
+              <!-- Crear hospital botón -->
+              <div class="col">
+                <div class="text-right">
+                  <button class="btn btn-primary">
+                    <i class="fa fa-hospital-o" style="margin-right: 0.5em;"></i>Crear Hospital
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tabla -->
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
