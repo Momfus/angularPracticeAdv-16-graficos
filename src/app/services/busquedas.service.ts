@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Usuario } from 'src/models/usuario.model';
+import { Hospital } from '../../models/hospital.model';
 
 const base_url = environment.base_url;
 
@@ -34,6 +35,14 @@ export class BusquedasService {
 
   }
 
+  private transformarHospitales( resultados: any[] ): Hospital[] { // Permite ir armando el objeto usuario y así mostrar correctamente su información (como las imagenes)
+
+    return resultados.map(
+      hospital => new Hospital(hospital.nombre, hospital.usuario, hospital.img, hospital._id)
+    );
+
+  }
+
   buscar( tipo: 'usuarios'|'medicos'|'hospitales',
           termino: string) {
     const url = `${base_url}/todo/coleccion/${tipo}/${termino}`;
@@ -44,6 +53,10 @@ export class BusquedasService {
                 switch (tipo) {
                   case 'usuarios': {
                     return this.transformarUsuarios(res.resultados);
+                  }
+
+                  case 'hospitales': {
+                    return this.transformarHospitales(res.resultados);
                   }
 
                   default:

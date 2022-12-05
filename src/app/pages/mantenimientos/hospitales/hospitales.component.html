@@ -9,6 +9,7 @@
             <input  type="text"
                     class="form-control"
                     placeholder="Buscar usuario..."
+                    (keyup)="buscar(txtTermino.value)"
                     #txtTermino> <!-- Referencia local a este input -->
 
           </div>
@@ -75,7 +76,7 @@
                             <td class="text-center">
                               <img  [src]="hospital.img | imagen: 'hospitales'"
                                     [alt]="hospital.nombre"
-                                    class="avatar cursor"
+                                    class="cursor w100"
                                     (click)="abrirModal(hospital)">
                             </td>
                             <td>
@@ -109,6 +110,12 @@
                 </table>
             </div>
 
+            <!-- Sin usuarios encontrados -->
+            <div *ngIf="sinHospitales" class="text-center">
+              <h2>No se encontraron hospitales.</h2>
+            </div>
+
+            <!--  Botones siguiente o anteriores-->
             <div *ngIf="txtTermino.value.length === 0">
               <button (click)="cambiarPagina(-pageOffset)"
                       *ngIf="desde >= pageOffset"

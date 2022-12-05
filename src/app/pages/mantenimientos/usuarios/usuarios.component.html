@@ -102,6 +102,7 @@
               <h2>No se encontraron usuarios.</h2>
             </div>
 
+            <!--  Botones siguiente o anteriores-->
             <div *ngIf="txtTermino.value.length === 0">
               <button (click)="cambiarPagina(-pageOffset)"
                       *ngIf="desde >= pageOffset"

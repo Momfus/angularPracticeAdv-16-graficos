@@ -4,10 +4,10 @@ import Swal from 'sweetalert2';
 
 import { HospitalService } from '../../../services/hospital.service';
 import { Hospital } from '../../../../models/hospital.model';
-import { ChildActivationStart } from '@angular/router';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { BusquedasService } from '../../../services/busquedas.service';
 
 @Component({
   selector: 'app-hospitales',
@@ -18,6 +18,9 @@ import { delay } from 'rxjs/operators';
 export class HospitalesComponent implements OnInit {
 
   public hospitales: Hospital[] = [];
+  public hospitalesTemp: Hospital[] = [];
+
+  public sinHospitales: boolean = false;
   public cargando: boolean = true;
   public totalHospitales: number = 0;
   public desde: number = 0;
@@ -29,7 +32,8 @@ export class HospitalesComponent implements OnInit {
 
   constructor(
     private hospitalService: HospitalService,
-    private modalImagenService: ModalImagenService
+    private modalImagenService: ModalImagenService,
+    private busquedaService: BusquedasService
   ) {
 
   }
@@ -59,6 +63,7 @@ export class HospitalesComponent implements OnInit {
         this.cargando = false;
         this.hospitales = res.hospitales;
         this.totalHospitales = res.total;
+        this.hospitalesTemp = res.hospitales;
 
       });
 
@@ -115,7 +120,7 @@ export class HospitalesComponent implements OnInit {
 
   async abrirSweetAlert() {
 
-    const {value} = await Swal.fire<string>({
+    const {value = ''} = await Swal.fire<string>({
       title: 'Crear hospital',
       text: 'Ingrese el nombre del nuevo hospital',
       input: 'text',
@@ -138,6 +143,22 @@ export class HospitalesComponent implements OnInit {
 
   abrirModal( hospital: Hospital) {
     this.modalImagenService.abrirModal('hospitales', hospital._id, hospital.img);
+  }
+
+  buscar(termino: string) {
+
+    if( termino.length === 0 ) {
+      this.hospitales = this.hospitalesTemp; // De esta manera se queda con el total de hospitales (sin búsqueda)
+      return;
+    }
+
+    this.busquedaService.buscar('hospitales', termino)
+      .subscribe( res => {
+        this.hospitales = res as Hospital[];
+        this.sinHospitales = res.length === 0 ? true : false;
+      });
+
+
   }
 
 }
