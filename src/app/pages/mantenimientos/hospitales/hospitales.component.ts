@@ -108,13 +108,38 @@ export class HospitalesComponent implements OnInit {
       return;
     }
 
-    this.hospitalService.borrarHospital( hospital._id)
-        .subscribe( res => {
+    Swal.fire({
+      title: '¿Borrar hospital?',
+      text: `Esta a punto de borrar a ${hospital.nombre}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrarlo'
+    }).then( (result) => {
 
-          this.cargarHospitales();
-          Swal.fire('Borrado', hospital.nombre, 'success');
+      if( result.isConfirmed && hospital._id !== undefined ) {
 
-        });
+        this.hospitalService.borrarHospital( hospital._id)
+            .subscribe( res => {
+
+              // Para volver a la página anterior si el total de usuarios en la actual ya no existe y no es la primera página
+              if( this.desde === (this.totalHospitales - 1 ) && this.desde != 0 ){
+                this.desde -= this.pageOffset;
+              }
+
+              this.cargarHospitales();
+              Swal.fire(
+
+                'Hospital borrado',
+                `${hospital.nombre} fue eliminado correctamente`,
+                'success'
+
+              )
+
+            });
+      }
+
+    });
+
 
   }
 
