@@ -26,7 +26,7 @@ export interface CargarHospital {
   total: number
   ok: boolean,
   hospitales:Hospital[],
-  uid: string,
+  id: string,
 }
 
 export interface Hospitales {

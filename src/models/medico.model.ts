@@ -16,6 +16,12 @@ interface _MedicoUser { // Se usará solo aca
 
 }
 
+export interface CargarMedico {
+  total: number
+  ok: boolean,
+  medicos:Medico[],
+  id: string,
+}
 
 export class Medico {
 
