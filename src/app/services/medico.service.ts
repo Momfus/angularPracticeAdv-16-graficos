@@ -57,7 +57,7 @@ export class MedicoService {
   }
 
 
-  borrarHospital(_id: string) {
+  borrarMedico(_id: string) {
 
     const url = `${base_url}/medicos/${ _id }`;
     return this.http.delete(url, this.headers);

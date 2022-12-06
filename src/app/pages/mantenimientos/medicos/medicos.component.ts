@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import Swal from 'sweetalert2';
+import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 import { MedicoService } from '../../../services/medico.service';
 import { Medico } from '../../../../models/medico.model';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { BusquedasService } from 'src/app/services/busquedas.service';
-import { delay } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-medicos',
@@ -99,6 +101,44 @@ export class MedicosComponent implements OnInit, OnDestroy {
     }
 
     this.cargarMedicos();
+
+  }
+
+  borrarMedico(medico: Medico ) {
+
+
+        Swal.fire({
+          title: '¿Borrar médico?',
+          text: `Esta a punto de borrar a ${medico.nombre}`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, borrarlo'
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            this.medicoService.borrarMedico( medico._id )
+                .subscribe( res => {
+
+                    // Para volver a la página anterior si el total de usuarios en la actual ya no existe y no es la primera página
+                    if( this.desde === (this.totalMedicos - 1 ) && this.desde != 0 ){
+                      this.desde -= this.pageOffset;
+                    }
+
+                    this.cargarMedicos(); // Recargar lista y paginación
+
+                    Swal.fire(
+
+                      'Usuario borrado',
+                      `${medico.nombre} fue eliminado correctamente`,
+                      'success'
+
+                    )
+
+                });
+
+
+          }
+        })
 
   }
 
