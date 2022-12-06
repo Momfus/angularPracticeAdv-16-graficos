@@ -24,8 +24,9 @@ export class HospitalesComponent implements OnInit, OnDestroy {
   public cargando: boolean = true;
   public totalHospitales: number = 0;
   public desde: number = 0;
+  public limite: number = 5;
 
-  public pageOffset: number = 5;
+  public pageOffset: number = this.limite;
 
   private imgSubs!: Subscription;
 
@@ -61,7 +62,7 @@ export class HospitalesComponent implements OnInit, OnDestroy {
   cargarHospitales() {
 
     this.cargando = true;
-    this.hospitalService.cargarHospitales(this.desde)
+    this.hospitalService.cargarHospitales(this.desde, this.limite)
       .subscribe( res => {
 
         this.cargando = false;

@@ -29,9 +29,9 @@ export class HospitalService {
     }}
   }
 
-  cargarHospitales( desde: number = 0) {
+  cargarHospitales( desde: number = 0, limite: number = 0) {
 
-    const url = `${base_url}/hospitales?desde=${ desde }`;
+    const url = `${base_url}/hospitales?desde=${ desde }&limite=${ limite }`;
     return this.http.get<CargarHospital>(url, this.headers)
             .pipe(
               map( (res: CargarHospital ) => {
