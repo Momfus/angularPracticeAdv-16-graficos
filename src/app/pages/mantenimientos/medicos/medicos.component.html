@@ -9,7 +9,8 @@
             <input  type="text"
                     class="form-control"
                     placeholder="Buscar usuario..."
-                    #txtTermino>
+                    (keyup)="buscar(txtTermino.value)"
+                    #txtTermino> <!-- Referencia local a este input -->
 
           </div>
       </div>
@@ -35,53 +36,82 @@
   <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Medicos</h4>
-            <h6 class="card-subtitle">Médicos registrados en mi aplicación.</h6>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr >
-                            <th class="w100">Foto</th>
-                            <th>Nombre</th>
-                            <th class="w100 text-nowrap">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let medico of medicos">
 
-                            <td class="text-center">
-                              <img  [src]="medico.img | imagen: 'medicos'"
-                                    [alt]="medico.nombre"
-                                    class="avatar cursor"
-                                    (click)="abrirModal(medico)">
-                            </td>
+          <div class="row">
 
-                            <td>{{medico.nombre}}</td>
-
-                            <td class="text-nowrap text-center">
-                                <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Títulos -->
+            <div class="col-8">
+              <h4 class="card-title">Médicos ({{ totalMedicos }})</h4>
+              <h6 class="card-subtitle">
+                Médicos registrados en mi aplicación.
+              </h6>
             </div>
 
-            <!-- Sin usuarios encontrados -->
-            <div *ngIf="sinMedicos" class="text-center">
-              <h2>No se encontraron hospitales.</h2>
+            <!-- Crear hospital botón -->
+            <div class="col">
+              <div class="text-right">
+                <a  class="btn btn-primary"
+                    routerLink="/dashboard/medico/nuevo">
+                  <i class="fa fa-hospital-o" style="margin-right: 0.5em;"></i>
+                  Crear Médico
+                </a>
+              </div>
             </div>
 
-            <!--  Botones siguiente o anteriores-->
-            <div *ngIf="txtTermino.value.length === 0">
-              <button (click)="cambiarPagina(-pageOffset)"
-                      *ngIf="desde >= pageOffset"
-                      class="btn btn-secondary">Anteriores</button>
-              &nbsp; <!-- Comando para pequeña separación -->
-              <button (click)="cambiarPagina(pageOffset)"
-                      *ngIf="(desde + pageOffset) < totalMedicos"
-                      class="btn btn-secondary">Siguientes</button>
-            </div>
+          </div>
+
+        <!-- Table -->
+        <h4 class="card-title">Medicos</h4>
+        <h6 class="card-subtitle">Médicos registrados en mi aplicación.</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr >
+                        <th class="w100">Foto</th>
+                        <th>Nombre</th>
+                        <th class="w100 text-nowrap">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let medico of medicos">
+
+                        <td class="text-center">
+                          <img  [src]="medico.img | imagen: 'medicos'"
+                                [alt]="medico.nombre"
+                                class="avatar cursor"
+                                (click)="abrirModal(medico)">
+                        </td>
+
+                        <td>{{medico.nombre}}</td>
+
+                        <td class="text-nowrap text-center">
+                            <a  [routerLink]="['/dashboard', 'medico', medico._id]"
+                                data-toggle="tooltip"
+                                data-original-title="Editar">
+                                  <i class="fa fa-pencil text-inverse m-r-10"></i>
+                            </a>
+                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sin usuarios encontrados -->
+        <div *ngIf="sinMedicos" class="text-center">
+          <h2>No se encontraron hospitales.</h2>
+        </div>
+
+        <!--  Botones siguiente o anteriores-->
+        <div *ngIf="txtTermino.value.length === 0">
+          <button (click)="cambiarPagina(-pageOffset)"
+                  *ngIf="desde >= pageOffset"
+                  class="btn btn-secondary">Anteriores</button>
+          &nbsp; <!-- Comando para pequeña separación -->
+          <button (click)="cambiarPagina(pageOffset)"
+                  *ngIf="(desde + pageOffset) < totalMedicos"
+                  class="btn btn-secondary">Siguientes</button>
+        </div>
 
         </div>
     </div>

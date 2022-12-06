@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,7 @@ import { BusquedasService } from '../../../services/busquedas.service';
   styles: [
   ]
 })
-export class HospitalesComponent implements OnInit {
+export class HospitalesComponent implements OnInit, OnDestroy {
 
   public hospitales: Hospital[] = [];
   public hospitalesTemp: Hospital[] = [];
@@ -52,6 +52,10 @@ export class HospitalesComponent implements OnInit {
       }
     );
 
+  }
+
+  ngOnDestroy(): void {
+      this.imgSubs.unsubscribe();
   }
 
   cargarHospitales() {
@@ -174,6 +178,7 @@ export class HospitalesComponent implements OnInit {
 
     if( termino.length === 0 ) {
       this.hospitales = this.hospitalesTemp; // De esta manera se queda con el total de hospitales (sin búsqueda)
+      this.sinHospitales = this.hospitales.length === 0 ? true : false;
       return;
     }
 

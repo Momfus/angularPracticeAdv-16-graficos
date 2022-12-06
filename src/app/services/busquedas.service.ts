@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Usuario } from 'src/models/usuario.model';
 import { Hospital } from '../../models/hospital.model';
+import { Medico } from 'src/models/medico.model';
 
 const base_url = environment.base_url;
 
@@ -35,11 +36,15 @@ export class BusquedasService {
 
   }
 
-  private transformarHospitales( resultados: any[] ): Hospital[] { // Permite ir armando el objeto usuario y así mostrar correctamente su información (como las imagenes)
+  private transformarHospitales( resultados: any[] ): Hospital[] { // Sin instancias
 
-    return resultados.map(
-      hospital => new Hospital(hospital.nombre, hospital.usuario, hospital.img, hospital._id)
-    );
+    return resultados;
+
+  }
+
+  private transformarMedicos( resultados: any[] ): Medico[] { // Sin instancias
+
+    return resultados;
 
   }
 
@@ -59,8 +64,12 @@ export class BusquedasService {
                     return this.transformarHospitales(res.resultados);
                   }
 
+                  case 'medicos': {
+                    return this.transformarMedicos(res.resultados);
+                  }
+
                   default:
-                    return []; // Temporalmente, se hará después para cada tipo
+                    return []; // En caso que no coincida
                 }
 
               })

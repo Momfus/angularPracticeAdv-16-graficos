@@ -53,7 +53,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.cargarUsuarios();
+      this.imgSubs.unsubscribe;
   }
 
   cargarUsuarios() {
@@ -90,6 +90,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     if( termino.length === 0 ) {
       this.usuarios = this.usuariosTemp; // De esta manera se queda con el total de usuarios (sin búsqueda)
+      this.sinUsuario = this.usuarios.length === 0 ? true : false;
       return;
     }
 
