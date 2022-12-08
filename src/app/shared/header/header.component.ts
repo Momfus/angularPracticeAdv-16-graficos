@@ -15,7 +15,7 @@ export class HeaderComponent {
 
   constructor(
       private usuarioService: UsuarioService,
-      private router: Router
+      private router: Router,
     ) {
 
       this.usuario = usuarioService.usuario; // Tengo accesso a sus propiedades, funciones (como los getters)
