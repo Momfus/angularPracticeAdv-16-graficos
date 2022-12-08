@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { HospitalService } from '../../../services/hospital.service';
+import { MedicoService } from '../../../services/medico.service';
+
 import { CargarHospital, Hospital } from '../../../../models/hospital.model';
+import { Medico } from 'src/models/medico.model';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-medico',
@@ -13,11 +19,15 @@ export class MedicoComponent implements OnInit {
 
   public medicoForm!: FormGroup;
   public hospitales: Hospital[] = [];
+
   public hospitalSeleccionado!: Hospital | undefined;
+  public medicoSeleccionado!: Medico | undefined;
 
   constructor(
-    private fb: FormBuilder,
-    private hospitalService: HospitalService
+      private fb: FormBuilder,
+      private hospitalService: HospitalService,
+      private medicoService: MedicoService,
+      private router: Router
     ) {
 
   }
@@ -26,7 +36,7 @@ export class MedicoComponent implements OnInit {
 
     this.medicoForm = this.fb.group({
 
-      nombre:   ['Momfus', Validators.required],
+      nombre:   ['', Validators.required],
       hospital: ['', Validators.required],
 
     });
@@ -56,7 +66,18 @@ export class MedicoComponent implements OnInit {
   }
 
   guardarMedico() {
-    console.log(this.medicoForm.value);
+
+    const {nombre} = this.medicoForm.value;
+
+    this.medicoService.crearMedico( this.medicoForm.value )
+        .subscribe( (res: any) => {
+
+          console.log(res);
+          Swal.fire('Creado', `${ nombre } creado correctamente`, 'success');
+
+          this.router.navigateByUrl(`/dashboard/medico/${ res.medico._id }`);
+
+        })
 
   }
 

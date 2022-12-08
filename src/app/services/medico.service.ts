@@ -42,7 +42,7 @@ export class MedicoService {
             );
   }
 
-  crearHospital(medico: Medico) {
+  crearMedico(medico: { nombre: string, hospital: string } ) {
 
     const url = `${base_url}/medicos`;
     return this.http.post(url, medico, this.headers);

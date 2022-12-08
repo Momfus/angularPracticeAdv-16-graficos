@@ -13,12 +13,13 @@
                   (submit)="guardarMedico()">
 
               <!-- Imagen -->
-              <div  class="form-group row">
+              <div  class="form-group row"
+                    *ngIf="medicoSeleccionado">
                 <label for="exampleInputuname3" class="col-sm-3 control-label">Foto</label>
                 <div class="col-sm-9">
                     <div class="input-group">
 
-                      <img  class="w200" src="http://localhost:3000/api/upload/usuarios/no-images">
+                      <img  class="w200" [src]="medicoSeleccionado.img | imagen:'medicos' ">
 
                     </div>
                 </div>
