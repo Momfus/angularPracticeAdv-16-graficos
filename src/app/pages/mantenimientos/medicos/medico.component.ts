@@ -7,7 +7,7 @@ import { MedicoService } from '../../../services/medico.service';
 import { CargarHospital, Hospital } from '../../../../models/hospital.model';
 import { Medico } from 'src/models/medico.model';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-medico',
@@ -27,12 +27,22 @@ export class MedicoComponent implements OnInit {
       private fb: FormBuilder,
       private hospitalService: HospitalService,
       private medicoService: MedicoService,
-      private router: Router
+      private router: Router,
+      private activateRoute: ActivatedRoute
     ) {
 
   }
 
   ngOnInit(): void {
+
+    // Se subscribe al snapshot porque puede cambiar el url
+    this.activateRoute.params.subscribe( ( {id} ) => { // Del pages routing es que saca el nombre idal destructurarlo
+
+      console.log(id);
+
+      this.cargarMedico( id );
+
+    } );
 
     this.medicoForm = this.fb.group({
 
@@ -49,6 +59,15 @@ export class MedicoComponent implements OnInit {
 
           this.hospitalSeleccionado = this.hospitales.find( h => h._id === hospitalId );
 
+        });
+
+  }
+
+  cargarMedico( id: string ) {
+
+    this.medicoService.obtenerMedicoById(id)
+        .subscribe( medico => {
+          this.medicoSeleccionado = medico;
         });
 
   }

@@ -16,11 +16,15 @@ interface _MedicoUser { // Se usará solo aca
 
 }
 
-export interface CargarMedico {
+export interface CargarMedicos {
   total: number
   ok: boolean,
-  medicos:Medico[],
-  id: string,
+  medicos:Medico[]
+}
+
+export interface CargarMedico {
+  ok: boolean,
+  medico:Medico,
 }
 
 export class Medico {
