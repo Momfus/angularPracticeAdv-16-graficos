@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HospitalService } from '../../../services/hospital.service';
@@ -8,6 +8,9 @@ import { CargarHospital, Hospital } from '../../../../models/hospital.model';
 import { Medico } from 'src/models/medico.model';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs/operators';
+import { ModalImagenService } from 'src/app/services/modal-imagen.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-medico',
@@ -15,18 +18,22 @@ import { ActivatedRoute, Router } from '@angular/router';
   styles: [
   ]
 })
-export class MedicoComponent implements OnInit {
+export class MedicoComponent implements OnInit, OnDestroy {
 
   public medicoForm!: FormGroup;
   public hospitales: Hospital[] = [];
 
   public hospitalSeleccionado!: Hospital | undefined;
   public medicoSeleccionado!: Medico | undefined;
+  public medicoImg!: string | undefined;
+
+  private imgSubs!: Subscription;
 
   constructor(
       private fb: FormBuilder,
       private hospitalService: HospitalService,
       private medicoService: MedicoService,
+      private modalImagenService: ModalImagenService,
       private router: Router,
       private activateRoute: ActivatedRoute
     ) {
@@ -59,6 +66,20 @@ export class MedicoComponent implements OnInit {
 
         });
 
+    // Cambiar la imagen actual si recibe un cambio
+    this.imgSubs = this.modalImagenService.nuevaImagen
+      .pipe(
+        delay(50) // Se le agrega un leve delay porque la carga es muy rápida y la recarga se termina antes (al ser pocos datos)
+      )
+      .subscribe( img => {
+        this.medicoImg = img;
+      });
+
+
+  }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
   }
 
   cargarMedico( id: string ) {
@@ -68,22 +89,27 @@ export class MedicoComponent implements OnInit {
     }
 
     this.medicoService.obtenerMedicoById(id)
-        .subscribe( medico => {
+      .pipe(
+        delay(50) // obligar esperar un poco para que se carguen los datos correctamente (más que nada por las imagenes)
+      )
+      .subscribe( medico => {
 
-          console.log(medico);
+        // console.log(medico);
 
-          const { nombre, hospital } = medico;
+        const { nombre, hospital } = medico;
 
-          this.medicoSeleccionado = medico;
-          this.medicoForm.setValue({ nombre, hospital: hospital?._id })
+        this.medicoSeleccionado = medico;
+        this.medicoForm.setValue({ nombre, hospital: hospital?._id })
 
-          return;
+        this.medicoImg = this.medicoSeleccionado.img;
 
-        }, error => {
+        return;
 
-          // Tal vez es un url de un médico que ya no existe
-          return this.router.navigateByUrl(`/dashboard/medicos`);
-        });
+      }, error => {
+
+        // Tal vez es un url de un médico que ya no existe
+        return this.router.navigateByUrl(`/dashboard/medicos`);
+      });
   }
 
   cargarHospitales() {
@@ -132,6 +158,12 @@ export class MedicoComponent implements OnInit {
 
     }
 
+
+  }
+
+  abrirModalImagen() {
+
+    this.modalImagenService.abrirModal('medicos', this.medicoSeleccionado?._id, this.medicoSeleccionado?.img);
 
   }
 

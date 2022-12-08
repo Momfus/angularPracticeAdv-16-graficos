@@ -19,7 +19,9 @@
                 <div class="col-sm-9">
                     <div class="input-group">
 
-                      <img  class="w200" [src]="medicoSeleccionado.img | imagen:'medicos' ">
+                      <img  class="w200 cursor"
+                            [src]="medicoImg | imagen:'medicos'"
+                            (click)="abrirModalImagen()">
 
                     </div>
                 </div>
