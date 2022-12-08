@@ -8,7 +8,7 @@ const base_url = environment.base_url;
 })
 export class ImagenPipe implements PipeTransform {
 
-  transform(img: string | undefined, tipo: 'usuariois'|'medicos'|'hospitales'): string {
+  transform(img: string | undefined, tipo: 'usuarios'|'medicos'|'hospitales'): string {
 
     if( !img){ // en caso que no exista el campo por alguna razón
 
