@@ -59,7 +59,7 @@ export class MedicoService {
 
   }
 
-  actualizarHospital(medico: Medico) {
+  actualizarMedico(medico: Medico) {
 
     const url = `${base_url}/medicos/${ medico._id }`;
     return this.http.put(url, medico, this.headers);

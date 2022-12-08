@@ -38,8 +38,6 @@ export class MedicoComponent implements OnInit {
     // Se subscribe al snapshot porque puede cambiar el url
     this.activateRoute.params.subscribe( ( {id} ) => { // Del pages routing es que saca el nombre idal destructurarlo
 
-      console.log(id);
-
       this.cargarMedico( id );
 
     } );
@@ -65,11 +63,27 @@ export class MedicoComponent implements OnInit {
 
   cargarMedico( id: string ) {
 
+    if( id === 'nuevo') {
+      return; // Al crear un médico, no hace falta buscar
+    }
+
     this.medicoService.obtenerMedicoById(id)
         .subscribe( medico => {
-          this.medicoSeleccionado = medico;
-        });
 
+          console.log(medico);
+
+          const { nombre, hospital } = medico;
+
+          this.medicoSeleccionado = medico;
+          this.medicoForm.setValue({ nombre, hospital: hospital?._id })
+
+          return;
+
+        }, error => {
+
+          // Tal vez es un url de un médico que ya no existe
+          return this.router.navigateByUrl(`/dashboard/medicos`);
+        });
   }
 
   cargarHospitales() {
@@ -88,15 +102,36 @@ export class MedicoComponent implements OnInit {
 
     const {nombre} = this.medicoForm.value;
 
-    this.medicoService.crearMedico( this.medicoForm.value )
-        .subscribe( (res: any) => {
+    // Si se tiene un médico seleccionado ACTUALIZAR
+    if( this.medicoSeleccionado ) {
 
-          console.log(res);
-          Swal.fire('Creado', `${ nombre } creado correctamente`, 'success');
+      const data = {
+        ...this.medicoForm.value,
+        _id: this.medicoSeleccionado._id
+      }
 
-          this.router.navigateByUrl(`/dashboard/medico/${ res.medico._id }`);
+      this.medicoService.actualizarMedico( data )
+        .subscribe( res => {
 
-        })
+          Swal.fire('Actualizado', `${ nombre } actualizado correctamente`, 'success');
+
+        });
+
+    } else {
+
+      // CREAR
+      this.medicoService.crearMedico( this.medicoForm.value )
+          .subscribe( (res: any) => {
+
+            // console.log(res);
+            Swal.fire('Creado', `${ nombre } creado correctamente`, 'success');
+
+            this.router.navigateByUrl(`/dashboard/medico/${ res.medico._id }`);
+
+          })
+
+    }
+
 
   }
 
