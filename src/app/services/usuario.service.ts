@@ -54,6 +54,12 @@ export class UsuarioService {
 
   }
 
+  guardarLocalStorage( token: string, menu: any ) {
+
+    localStorage.setItem('token', token); // Graba el nuevo token renovado
+    localStorage.setItem('menu', JSON.stringify(menu));
+
+  }
 
   handleCredentialResponse( response: any) {
 
@@ -80,7 +86,7 @@ export class UsuarioService {
         const { email, google, nombre, role, img = '', uid } = res.usuario;
 
         this.usuario = new Usuario(nombre,email, '', img, google, role, uid); // Password no se debe traer
-        localStorage.setItem('token', res.token); // Graba el nuevo token renovado
+        this.guardarLocalStorage(res.token, res.menu);
 
 
         return true;  // De pasar la respuesta, directamente devolverá "true" porque pudo renovar el token
@@ -101,7 +107,7 @@ export class UsuarioService {
                   tap( (res: any) => {
                     // Efecto secundario al suscribirse
                     // Guardar el token en el localstorage
-                    localStorage.setItem('token', res.token)
+                    this.guardarLocalStorage(res.token, res.menu);
 
                   })
                 );
@@ -125,7 +131,7 @@ export class UsuarioService {
                   tap( (res: any) => {
                     // Efecto secundario al suscribirse
                     // Guardar el token en el localstorage
-                    localStorage.setItem('token', res.token)
+                    this.guardarLocalStorage(res.token, res.menu);
 
                   })
                 );
@@ -139,7 +145,7 @@ export class UsuarioService {
               tap( (res: any) => {
                 // console.log(res);
                 // console.log(res.token);
-                localStorage.setItem('token', res.token)
+                this.guardarLocalStorage(res.token, res.menu);
               })
             );
 
@@ -149,6 +155,10 @@ export class UsuarioService {
   logout() {
 
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
+
+    // TODO: Borrar el menu
+
     // De esta manera quita cualquier visualización de que el usuario logueado con google este visible al desloguearse
     google.accounts.id.revoke( 'momfusutn@gmail.com', () => {
       this.router.navigateByUrl('/login');
