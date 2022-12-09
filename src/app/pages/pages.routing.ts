@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { AuthGuard } from '../guards/auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -43,7 +44,9 @@ const routes: Routes = [
       { path: 'hospitales', component: HospitalesComponent, data: { title: 'Mantenimiento de Hospitales' } },
       { path: 'medicos', component: MedicosComponent, data: { title: 'Mantenimiento de Médicos' } },
       { path: 'medico/:id', component: MedicoComponent, data: { title: 'Mantenimiento de Médico' } },
-      { path: 'usuarios', component: UsuariosComponent, data: { title: 'Mantenimiento de Usuarios' } },
+
+      // Rutas de admin
+      { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { title: 'Mantenimiento de Usuarios' } },
 
     ]
   },
