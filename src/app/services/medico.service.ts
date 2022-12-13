@@ -15,23 +15,12 @@ export class MedicoService {
     private http: HttpClient,
   ) { }
 
-
-
-  get token(): string {
-    return localStorage.getItem('token') || ''; // De no existir el token, retornar string vacio
-  }
-
-  get headers() {
-    return {
-      headers: {
-      'x-token': this.token // Utiliza el getter
-    }}
-  }
+  // NOTA: los headers se manejan desde el interceptor
 
   cargarMedicos( desde: number = 0) {
 
     const url = `${base_url}/medicos?desde=${ desde }`;
-    return this.http.get<CargarMedicos>(url, this.headers)
+    return this.http.get<CargarMedicos>(url)
             .pipe(
               map( (res: CargarMedicos ) => {
                 return {
@@ -45,7 +34,7 @@ export class MedicoService {
   obtenerMedicoById( id: string ) {
 
     const url = `${ base_url }/medicos/${ id }`;
-    return this.http.get<CargarMedico>( url, this.headers )
+    return this.http.get<CargarMedico>( url)
                 .pipe(
                   map( ( res: CargarMedico ) => { return res.medico })
                 )
@@ -55,14 +44,14 @@ export class MedicoService {
   crearMedico(medico: { nombre: string, hospital: string } ) {
 
     const url = `${base_url}/medicos`;
-    return this.http.post(url, medico, this.headers);
+    return this.http.post(url, medico);
 
   }
 
   actualizarMedico(medico: Medico) {
 
     const url = `${base_url}/medicos/${ medico._id }`;
-    return this.http.put(url, medico, this.headers);
+    return this.http.put(url, medico);
 
   }
 
@@ -70,7 +59,7 @@ export class MedicoService {
   borrarMedico(_id: string) {
 
     const url = `${base_url}/medicos/${ _id }`;
-    return this.http.delete(url, this.headers);
+    return this.http.delete(url);
 
   }
 

@@ -7,6 +7,8 @@ import { PagesModule } from './pages/pages.module';
 import { AppComponent } from './app.component';
 import { NotpagefoundComponent } from './notpagefound/notpagefound.component';
 import { AuthModule } from './auth/auth.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './interceptors/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,16 @@ import { AuthModule } from './auth/auth.module';
     AppRoutingModule,
     PagesModule,
     AuthModule
+  ],
+  providers:  [
+
+    {
+      // Por cada interceptor, se puede si son varios meter en un modulo
+      provide: HTTP_INTERCEPTORS, // Se define que es un interceptor el provider
+      useClass: InterceptorService, // el interceptor creado
+      multi: true // para estar pendiente de todas las intercepciones http
+    }
+
   ],
   bootstrap: [AppComponent]
 })

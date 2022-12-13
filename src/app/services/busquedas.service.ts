@@ -17,16 +17,6 @@ export class BusquedasService {
     private http: HttpClient
   ) { }
 
-  get token(): string {
-    return localStorage.getItem('token') || '';
-  }
-
-  get headers() {
-    return {
-      headers: {
-      'x-token': this.token // Utiliza el getter
-    }}
-  }
 
   private transformarUsuarios( resultados: any[] ): Usuario[] { // Permite ir armando el objeto usuario y así mostrar correctamente su información (como las imagenes)
 
@@ -51,14 +41,14 @@ export class BusquedasService {
   busquedaGlobal( termino: string ) {
 
     const url = `${base_url}/todo/${termino}`;
-    return this.http.get(url, this.headers);
+    return this.http.get(url);
 
   }
 
   buscar( tipo: 'usuarios'|'medicos'|'hospitales',
           termino: string) {
     const url = `${base_url}/todo/coleccion/${tipo}/${termino}`;
-    return this.http.get<any[]>(url, this.headers)
+    return this.http.get<any[]>(url)
             .pipe(
               map( (res:any) => {
 

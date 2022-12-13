@@ -31,9 +31,8 @@ export class UsuarioService {
         this.googleInit();
   }
 
-  get token(): string {
-    return localStorage.getItem('token') || ''; // De no existir el token, retornar string vacio
-  }
+  // NOTA: los headers se manejan desde el interceptor
+
 
   get role(): 'ADMIN_ROLE' | 'USER_ROLE'| undefined {
     return this.usuario.role;
@@ -43,12 +42,6 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
-  get headers() {
-    return {
-      headers: {
-      'x-token': this.token // Utiliza el getter
-    }}
-  }
   googleInit() {
 
       google.accounts.id.initialize({
@@ -81,7 +74,7 @@ export class UsuarioService {
 
   validarToken(): Observable<boolean> {
 
-    return this.http.get(`${base_url}/login/renew`, this.headers
+    return this.http.get(`${base_url}/login/renew`
       ).pipe(
       map( (res: any) => {
         // console.log(res);
@@ -124,7 +117,7 @@ export class UsuarioService {
       role: this.usuario.role || 'USER_ROLE' // Le asigna el mismo role del usuario o sino da el por defecto (que estableci en el backend)
     }
 
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers)
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data)
 
   }
 
@@ -174,7 +167,7 @@ export class UsuarioService {
 
     // localost:3000/api/usuarios?desde=0
     const url = `${base_url}/usuarios?desde=${ desde }`;
-    return this.http.get<CargarUsuario>(url, this.headers) // Lo que esta entre "<..>" me permite definir el tipo que devuelve para destructurarlo mejor al usarse
+    return this.http.get<CargarUsuario>(url) // Lo que esta entre "<..>" me permite definir el tipo que devuelve para destructurarlo mejor al usarse
                 .pipe(
                   // delay(5000), // De la libreria rxjs para provocar una demora (sirve para testing)
                   map( res => {
@@ -196,13 +189,13 @@ export class UsuarioService {
 
     const url = `${base_url}/usuarios/${ usuario.uid }`;
 
-    return this.http.delete(url, this.headers);
+    return this.http.delete(url);
   }
 
 
   guardarUsuario( usuario: Usuario) {
 
-    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers)
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario)
 
   }
 

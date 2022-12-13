@@ -27,9 +27,6 @@ export class FileUploadService {
       // Armar petición
       const res = await fetch( url, { // fetch es propio de javascript, permite
         method: 'PUT',
-        headers:  {
-          'x-token': localStorage.getItem('token') || '' // Si llegara a usarse más veces en este servicio (como en usuario service) podría hacer una función get de los headers directamente.
-        },
         body: formData
       });
 
